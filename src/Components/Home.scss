@@ -1,150 +1,255 @@
-.banner{
-    height: 400px;
-    background-color: rgb(16,16,16);
-    background-repeat: no-repeat;
-    background-size: 1300px 500px;
-    position:relative;
+.banner {
+  height: 400px;
+  background-color: rgb(16, 16, 16);
+  background-repeat: no-repeat;
+  background-size: 1300px 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem;
+  box-sizing: content-box;
+  &:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgb(16, 16, 16);
+    top: 0%;
+    left: 0%;
+    opacity: 0.4;
+  }
+
+  div {
     display: flex;
-    flex-direction: column;
-    justify-content:flex-end;
-    padding: 3rem;
-    box-sizing:content-box;
-    &:after{
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        background: rgb(16,16,16);
-        top: 0%;
-        left: 0%;
-        opacity: 0.4;
+
+    button {
+      padding: 1rem;
+      width: 150px;
+      outline: none;
+      border: none;
+      z-index: 10;
+      border-radius: 5px;
+      margin: 1rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s;
+      &:hover {
+        opacity: 0.6;
+      }
+
+      &:nth-child(odd) {
+        background-color: white;
+        color: black;
+      }
+      &:nth-child(even) {
+        background-color: rgb(57, 57, 57);
+        color: rgb(255, 255, 255);
+      }
+      svg {
+        font-size: 1.7rem;
+        margin: 0 10px;
+      }
     }
-  
-    div {
-        display: flex;
-    
-        button {
-          padding: 1rem;
-          width: 150px;
-          outline: none;
-          border: none;
-          z-index: 10;
-          border-radius: 5px;
-          margin: 1rem;
-          cursor: pointer;
-          font-size: 1.2rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.5s;
-          &:hover {
-            opacity: 0.6;
-          }
-    
-          &:nth-child(odd) {
-            background-color: white;
-            color: black;
-          }
-          &:nth-child(even) {
-            background-color: rgb(57, 57, 57);
-            color: rgb(255, 255, 255);
-          }
-          svg {
-            font-size: 1.7rem;
-            margin: 0 10px;
-          }
-        }
-    }
+  }
 }
 
-.row{
-    padding: 1rem;
-    background-color: rgb(16,16,16);
-    h2{
-       margin: 0.3rem;
-       font-weight: 400;
-    }
-  div{
+.row {
+  padding: 1rem;
+  background-color: rgb(16, 16, 16);
+  h2 {
+    margin: 0.3rem;
+    font-weight: 400;
+  }
+  div {
     display: flex;
     overflow-x: auto;
   }
 }
 
-.column{
+.column {
   padding: 1rem;
   display: flex;
-  overflow-x:auto;
+  overflow-x: auto;
 }
 
-.card{
-  width: 100px; 
-  height: 150px; 
+.card {
+  width: 100px;
+  height: 150px;
   margin: 0.3rem;
   cursor: pointer;
   transition: transform 0.3s;
-  &:hover{
+  &:hover {
     transform: translateY(-2.5px) scale(1.05);
   }
 }
 
-.search {
-  width: 100%;
-  position: relative;
+/* MovieDialog.scss */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
-}
-
-.searchTerm {
-  width: 100%;
-  border: 3px solid #248d40;
-  border-right: none;
-  padding: 6px;
-  height: 20px;
-  border-radius: 5px 0 0 5px;
-  outline: none;
-  color: #184593;
-}
-
-.searchTerm:focus{
-  color: #1fcc00;
-}
-
-.searchButton {
-  width: 40px;
-  height: 37px;
-  border: 1px solid #248d40;
-  background: #248d40;
-  display:flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content:center;
-  color: #fff;
-  border-radius: 0 5px 5px 0;
-  cursor: pointer;
-  font-size: 20px;
+  z-index: 1000;
+  backdrop-filter: blur(5px); /* Smooth backdrop effect */
+  transition: opacity 0.3s ease;
 }
 
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 70%;
-  margin-top: 2rem;
-  margin-bottom: 5rem;
-  position:relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-
-.searchbanner{
-  height: 400px;
-  background-color: white;
-  background-repeat: no-repeat;
-  background-size: 1000px 500px;
-  position:relative;
+.dialog-content {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 1000px;
+  height: 85vh;
+  position: relative;
+  overflow: hidden;
   display: flex;
-  flex-direction: row;
-  justify-content:flex-start;
-  padding: 1 rem;
-  box-sizing:content-box; 
+  flex-direction: column;
+  color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
 }
 
+.dialog-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(12px);
+  z-index: -1;
+}
+
+.dialog-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: 0;
+}
+
+.dialog-inner {
+  position: relative;
+  z-index: 1;
+  padding: 40px;
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  gap: 40px;
+}
+
+.poster-container {
+  flex-shrink: 0;
+  width: 300px;
+}
+
+.content-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.dialog-poster {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+p {
+  margin: 15px 0;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.genre-tag {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.movie-info {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: auto;
+  color: #ccc;
+
+  p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+  }
+
+  strong {
+    color: #ffd700;
+    margin-right: 10px;
+  }
+}
+
+.trailer-container {
+  margin-top: 20px;
+  width: 100%;
+  height: 315px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}

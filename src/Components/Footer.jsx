@@ -1,59 +1,42 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Box,
-  Container,
-  Row,
-  Column,
-  FooterLink,
-  Heading,
-} from "./FooterStyles";
+import { Box, Container, Row, Column, FooterLink } from "./FooterStyles";
 import {
   faYoutube,
   faFacebook,
   faTwitter,
-  faInstagram
+  faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 
-  
 const Footer = () => {
   return (
-    <Box className="footer-pin">
+    <Box>
       <Container>
         <Row>
           <Column>
-            <Heading>Follow Us</Heading>
             <FooterLink href="#">
-              <i className="fab fa-facebook-f">
-                <span style={{ marginLeft: "10px" ,marginRight:"10px"}}>
-                  Facebook
-                </span>
-                <FontAwesomeIcon icon={faFacebook} size="1x" />
-              </i>
+              <FontAwesomeIcon icon={faFacebook} size="1x" />
+              <span style={{ marginLeft: "10px", marginRight: "10px" }}>
+                Facebook
+              </span>
             </FooterLink>
             <FooterLink href="#">
-              <i className="fab fa-instagram">
-                <span style={{ marginLeft: "10px" ,marginRight:"10px"}}>
-                  Instagram
-                </span>
-                <FontAwesomeIcon icon={faInstagram} size="1x" />
-              </i>
+              <FontAwesomeIcon icon={faInstagram} size="1x" />
+              <span style={{ marginLeft: "10px", marginRight: "10px" }}>
+                Instagram
+              </span>
             </FooterLink>
             <FooterLink href="#">
-              <i className="fab fa-twitter">
-                <span style={{ marginLeft: "10px" ,marginRight:"10px"}}>
-                  Twitter
-                </span>
-                <FontAwesomeIcon icon={faTwitter} size="1x" />
-              </i>
+              <FontAwesomeIcon icon={faTwitter} size="1x" />
+              <span style={{ marginLeft: "10px", marginRight: "10px" }}>
+                Twitter
+              </span>
             </FooterLink>
             <FooterLink href="#">
-              <i className="fab fa-youtube">
-                <span style={{ marginLeft: "10px" ,marginRight:"10px"}}>
-                  Youtube
-                </span>
-                <FontAwesomeIcon icon={faYoutube} size="1x" />
-              </i>
+              <FontAwesomeIcon icon={faYoutube} size="1x" />
+              <span style={{ marginLeft: "10px", marginRight: "10px" }}>
+                Youtube
+              </span>
             </FooterLink>
           </Column>
         </Row>
@@ -61,4 +44,5 @@ const Footer = () => {
     </Box>
   );
 };
+
 export default Footer;

@@ -1,55 +1,52 @@
-import styled from 'styled-components';
+// FooterStyles.js
 
-export const Box = styled.div`
-padding: 30px 30px;
-background: black;
-position: relative;
-bottom: 0;
-width: 95.3%;
+import styled from "styled-components";
+
+export const Box = styled.footer`
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  width: 100%;
+  position: relative; /* Change to relative */
+  bottom: 0;
+  text-align: center;
 `;
 
 export const Container = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-item:center;
-	max-width: 1000px;
-	padding: auto;
-`
-
-export const Column = styled.div`
-display: flex;
-flex-direction: row;
-justify-content:center;
-align-item:center;
-// text-align: center;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const Row = styled.div`
-display: inline-block;
-margin-top:10px;
-margin-bottom:0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const Column = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 export const FooterLink = styled.a`
-color: #fff;
-margin: 6px 50px ;
-display: inline-block;
-font-size: 18px;
-text-decoration: none;
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
 
-&:hover {
-	color: green;
-	transition: 200ms ease-in;
-}
+  &:hover {
+    color: #f1c40f;
+  }
 `;
 
-export const Heading = styled.p`
-font-size: 24px;
-color: #fff;
-margin-bottom: 20px;
-margin-right:20px;
-margin-left:20px;
-font-weight: bold;
+export const Heading = styled.h1`
+  font-size: 24px;
+  color: #fff;
 `;
