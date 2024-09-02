@@ -1,105 +1,165 @@
 .search-container {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
+  max-width: 900px; /* Increased width for the overall container */
+  margin: auto;
 }
 
+/* Styling for the search bar */
 .search-bar {
   display: flex;
+  align-items: center;
   margin-bottom: 20px;
-  margin-left: 36px;
-  width: 80%;
-  max-width: 600px;
+  padding: 10px;
+  border-radius: 30px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Input styling for the search bar */
 .search-bar input {
   flex: 1;
+  border: none;
+  outline: none;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-  outline: none;
+  border-radius: 20px;
 }
 
+/* Search icon button styling */
 .search-icon {
-  background: #333;
-  color: #fff;
-  padding: 10px;
+  background: none;
   border: none;
-  border-radius: 0 4px 4px 0;
+  font-size: 20px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: #555;
+  padding: 5px;
+  margin-left: 10px;
+  transition: color 0.3s;
 }
 
-.results-container {
-  max-height: 70vh;
-  overflow-y: auto;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 20px;
-  margin-left: 20px;
-  padding-right: 10px; /* For scroll bar */
+.search-icon:hover {
+  color: #007bff;
 }
 
+/* Column styling for search results */
 .column {
-  width: 100%;
+  margin-top: 20px;
 }
 
+/* Title styling for each column */
 .column-title {
   font-size: 24px;
   margin-bottom: 10px;
   color: #333;
 }
 
+/* Content layout for vertical cards */
 .column-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+/* Card styling */
 .cards {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-  height: 165px;
-  overflow-y: auto;
+  flex-direction: row; /* Set layout to row for increased width and decreased height */
+  max-width: 700px; /* Increased width */
+  height: 300px; /* Decreased height */
+  overflow: auto;
 }
 
+.cards:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image styling inside cards */
 .cards-img {
-  width: 100px;
-  height: auto;
-  border-radius: 8px 0 0 8px;
-}
-
-.cards-info {
   padding: 10px;
-  flex: 1;
+  width: 150px; /* Reduced size of poster */
+  height: 100%; /* Set to full height of the card */
+  object-fit: cover; /* Ensure image covers the set dimensions */
+  border-right: 1px solid #eee; /* Divider between image and text */
 }
 
+/* Info container within the cards */
+.cards-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space the content evenly */
+  width: 100%; /* Fill remaining width */
+}
+
+/* Title styling for each card */
 .cards-title {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 5px; /* Reduced margin */
+  color: #007bff;
 }
 
+/* Overview styling for each card */
 .cards-overview {
-  font-size: 14px;
+  font-size: 14px; /* Reduced font size */
   color: #555;
-  margin-bottom: 5px;
-  max-height: 50px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: 8px; /* Reduced margin */
 }
 
+/* Additional card details */
 .cards-type,
-.cards-release {
-  font-size: 12px;
-  font-weight: bold;
-  color: black;
+.cards-release,
+.cards-language,
+.cards-country,
+.cards-popularity,
+.cards-vote {
+  font-size: 12px; /* Smaller text for additional details */
+  color: #666;
+  margin: 2px 0;
+}
+
+/* Known For section styling */
+.known-for {
+  margin-top: 10px;
+}
+
+.known-for h4 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* Grid for known works */
+.known-for-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(80px, 1fr)
+  ); /* Smaller poster images */
+  gap: 8px; /* Reduced gap */
+}
+
+.known-for-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.known-for-img {
+  width: 100%; /* Fill available width */
+  border-radius: 6px; /* Smaller border radius */
+  margin-bottom: 4px; /* Smaller gap */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.known-for-title {
+  font-size: 12px; /* Smaller font for known for titles */
+  text-align: center;
+  color: #666;
 }
