@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 const imgUrl = "https://image.tmdb.org/t/p/original";
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 
@@ -25,8 +26,115 @@ const genreList = [
   { id: 37, name: "Western" },
 ];
 
+const languageMap = {
+  en: "English",
+  es: "Spanish",
+  fr: "French",
+  de: "German",
+  it: "Italian",
+  ja: "Japanese",
+  ko: "Korean",
+  zh: "Chinese",
+  ru: "Russian",
+  ar: "Arabic",
+  hi: "Hindi",
+  nl: "Dutch",
+  sv: "Swedish",
+  tr: "Turkish",
+  th: "Thai",
+  pl: "Polish",
+  id: "Indonesian",
+  da: "Danish",
+  no: "Norwegian",
+  fi: "Finnish",
+  cs: "Czech",
+  el: "Greek",
+  he: "Hebrew",
+  hu: "Hungarian",
+  ro: "Romanian",
+  vi: "Vietnamese",
+  sr: "Serbian",
+  uk: "Ukrainian",
+  bg: "Bulgarian",
+  fa: "Persian",
+  sk: "Slovak",
+  sl: "Slovenian",
+  hr: "Croatian",
+  lt: "Lithuanian",
+  lv: "Latvian",
+  et: "Estonian",
+  is: "Icelandic",
+  ga: "Irish",
+  ms: "Malay",
+  sw: "Swahili",
+  tl: "Tagalog",
+  tlh: "Klingon",
+  xh: "Xhosa",
+  zu: "Zulu",
+  cy: "Welsh",
+  sq: "Albanian",
+  mk: "Macedonian",
+  af: "Afrikaans",
+  hy: "Armenian",
+  az: "Azerbaijani",
+  eu: "Basque",
+  bn: "Bengali",
+  bs: "Bosnian",
+  ceb: "Cebuano",
+  ny: "Chichewa",
+  co: "Corsican",
+  eo: "Esperanto",
+  fy: "Frisian",
+  gl: "Galician",
+  gd: "Scots Gaelic",
+  gu: "Gujarati",
+  ht: "Haitian Creole",
+  ha: "Hausa",
+  haw: "Hawaiian",
+  iw: "Hebrew",
+  ig: "Igbo",
+  jw: "Javanese",
+  kn: "Kannada",
+  kk: "Kazakh",
+  km: "Khmer",
+  rw: "Kinyarwanda",
+  ky: "Kyrgyz",
+  lo: "Lao",
+  la: "Latin",
+  lb: "Luxembourgish",
+  mk: "Macedonian",
+  mg: "Malagasy",
+  ml: "Malayalam",
+  mt: "Maltese",
+  mi: "Maori",
+  mr: "Marathi",
+  mn: "Mongolian",
+  my: "Myanmar (Burmese)",
+  ne: "Nepali",
+  ps: "Pashto",
+  pa: "Punjabi",
+  sm: "Samoan",
+  gd: "Scots Gaelic",
+  st: "Sesotho",
+  sn: "Shona",
+  sd: "Sindhi",
+  si: "Sinhala",
+  so: "Somali",
+  su: "Sundanese",
+  tg: "Tajik",
+  ta: "Tamil",
+  te: "Telugu",
+  ur: "Urdu",
+  uz: "Uzbek",
+  cy: "Welsh",
+  fy: "Western Frisian",
+  yi: "Yiddish",
+  yo: "Yoruba",
+};
+
 const MovieDialog = ({ movie, onClose }) => {
   const [trailer, setTrailer] = useState(null);
+
   useEffect(() => {
     const fetchTrailer = async () => {
       if (!movie) return;
@@ -60,6 +168,9 @@ const MovieDialog = ({ movie, onClose }) => {
         .filter(Boolean)
     : [];
 
+  const languageName =
+    languageMap[movie.original_language] || movie.original_language;
+
   return (
     <div className="dialog-backdrop" onClick={onClose}>
       <div className="dialog-content">
@@ -89,7 +200,7 @@ const MovieDialog = ({ movie, onClose }) => {
                 <strong>Rating:</strong> {movie.vote_average.toFixed(1)} / 10
               </p>
               <p>
-                <strong>Language:</strong> {movie.original_language}
+                <strong>Language:</strong> {languageName}
               </p>
             </div>
           </div>

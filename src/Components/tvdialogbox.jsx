@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Home.scss";
+
 const imgUrl = "https://image.tmdb.org/t/p/original";
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 
@@ -23,8 +24,43 @@ const genreList = [
   { id: 37, name: "Western" },
 ];
 
+const countryMap = {
+  US: "United States",
+  GB: "United Kingdom",
+  FR: "France",
+  DE: "Germany",
+  IT: "Italy",
+  ES: "Spain",
+  JP: "Japan",
+  KR: "South Korea",
+  CN: "China",
+  IN: "India",
+  CA: "Canada",
+  AU: "Australia",
+  MX: "Mexico",
+  BR: "Brazil",
+  RU: "Russia",
+  AR: "Argentina",
+  SE: "Sweden",
+  NL: "Netherlands",
+  BE: "Belgium",
+  AT: "Austria",
+  CH: "Switzerland",
+  DK: "Denmark",
+  NO: "Norway",
+  FI: "Finland",
+  PL: "Poland",
+  PT: "Portugal",
+  GR: "Greece",
+  TR: "Turkey",
+  EG: "Egypt",
+  ZA: "South Africa",
+  // Add more mappings as needed
+};
+
 const TvDialogBox = ({ tv, onClose }) => {
   const [trailer, setTrailer] = useState(null);
+
   useEffect(() => {
     const fetchTrailer = async () => {
       if (!tv) return;
@@ -43,12 +79,13 @@ const TvDialogBox = ({ tv, onClose }) => {
           setTrailer(`https://www.youtube.com/embed/${youtubeTrailer.key}`);
         }
       } catch (error) {
-        console.error("Failed to fetch tv trailer:", error);
+        console.error("Failed to fetch TV trailer:", error);
       }
     };
 
     fetchTrailer();
   }, [tv]);
+
   if (!tv) return null;
 
   const tvGenres = tv.genre_ids
@@ -56,6 +93,8 @@ const TvDialogBox = ({ tv, onClose }) => {
         .map((id) => genreList.find((genre) => genre.id === id)?.name)
         .filter(Boolean)
     : [];
+
+  const countryName = countryMap[tv.origin_country[0]] || tv.origin_country[0];
 
   return (
     <div className="dialog-backdrop" onClick={onClose}>
@@ -76,7 +115,7 @@ const TvDialogBox = ({ tv, onClose }) => {
             <img
               className="dialog-poster"
               src={`${imgUrl}/${tv.poster_path}`}
-              alt={tv.title}
+              alt={tv.name}
             />
             <div className="movie-info">
               <p>
@@ -86,7 +125,7 @@ const TvDialogBox = ({ tv, onClose }) => {
                 <strong>Rating:</strong> {tv.vote_average.toFixed(1)} / 10
               </p>
               <p>
-                <strong>Country:</strong> {tv.origin_country[0]}
+                <strong>Country:</strong> {countryName}
               </p>
             </div>
           </div>
@@ -106,7 +145,7 @@ const TvDialogBox = ({ tv, onClose }) => {
                   width="100%"
                   height="315"
                   src={trailer}
-                  title="Movie Trailer"
+                  title="TV Trailer"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

@@ -49,7 +49,7 @@
 /* Title styling for each column */
 .column-title {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   color: #333;
 }
 
@@ -69,9 +69,8 @@
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: row; /* Set layout to row for increased width and decreased height */
-  max-width: 700px; /* Increased width */
-  height: 300px; /* Decreased height */
-  overflow: auto;
+  max-width: 1000px; /* Increased width */
+  height: 172px; /* Decreased height */
 }
 
 .cards:hover {
@@ -81,7 +80,6 @@
 
 /* Image styling inside cards */
 .cards-img {
-  padding: 10px;
   width: 150px; /* Reduced size of poster */
   height: 100%; /* Set to full height of the card */
   object-fit: cover; /* Ensure image covers the set dimensions */
@@ -101,7 +99,7 @@
 .cards-title {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 5px; /* Reduced margin */
+  // margin-bottom: 5px; /* Reduced margin */
   color: #007bff;
 }
 
@@ -110,56 +108,13 @@
   font-size: 14px; /* Reduced font size */
   color: #555;
   margin-bottom: 8px; /* Reduced margin */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Additional card details */
-.cards-type,
-.cards-release,
-.cards-language,
-.cards-country,
-.cards-popularity,
-.cards-vote {
+
+.cards-release {
   font-size: 12px; /* Smaller text for additional details */
-  color: #666;
-  margin: 2px 0;
-}
-
-/* Known For section styling */
-.known-for {
-  margin-top: 10px;
-}
-
-.known-for h4 {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: #444;
-}
-
-/* Grid for known works */
-.known-for-grid {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(80px, 1fr)
-  ); /* Smaller poster images */
-  gap: 8px; /* Reduced gap */
-}
-
-.known-for-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.known-for-img {
-  width: 100%; /* Fill available width */
-  border-radius: 6px; /* Smaller border radius */
-  margin-bottom: 4px; /* Smaller gap */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.known-for-title {
-  font-size: 12px; /* Smaller font for known for titles */
-  text-align: center;
   color: #666;
 }
