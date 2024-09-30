@@ -1,111 +1,145 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Home.scss";
-import TvDialogBox from "./tvdialogbox";
+import TvDialogBox from "./tvModal";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { BiPlay } from "react-icons/bi";
+import { BiPlay, BiWindows } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import Footer from "./Footer";
+import Row from "./Row";
+import Banner from "./banner";
 
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 const url = "https://api.themoviedb.org/3";
 const imgUrl = "https://image.tmdb.org/t/p/original";
-const Card = ({ img, onClick }) => {
-  return <img className="card" src={img} alt="cover" onClick={onClick} />;
-};
-
-const Row = ({ title, arr = [], onTvClick }) => {
-  return (
-    <div className="row">
-      <h2>{title}</h2>
-
-      <div>
-        {arr.map((item, index) => {
-          return (
-            <Card
-              key={index}
-              img={`${imgUrl}/${item.poster_path}`}
-              onClick={() => onTvClick(item)}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-};
 
 const TVShows = () => {
-  const [arrivingToday, setarrivingToday] = useState([]);
-  const [onTheAir, setonTheAir] = useState([]);
-  const [popular, setpopular] = useState([]);
+  const [arrivingToday, setArrivingToday] = useState([]);
+  const [arrivingTodayPage, setArrivingTodayPage] = useState(1);
+
+  const [onTheAir, setOnTheAir] = useState([]);
+  const [onTheAirPage, setOnTheAirPage] = useState(1);
+
+  const [popular, setPopular] = useState([]);
+  const [popularPage, setPopularPage] = useState(1);
+
   const [topRated, setTopRated] = useState([]);
+  const [topRatedPage, setTopRatedPage] = useState(1);
+
   const [selectedTv, setSelectedTv] = useState(null);
 
   useEffect(() => {
     const fetchArrivingToday = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/tv/airing_today?api_key=${apiKey}`);
-      setarrivingToday(results);
-    };
-    const fetchOnTheAir = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/tv/on_the_air?api_key=${apiKey}`);
-      setonTheAir(results);
-    };
-    const fetchPolpular = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/tv/popular?api_key=${apiKey}`);
-      setpopular(results);
-    };
-    const fetchTopRated = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/tv/top_rated?api_key=${apiKey}`);
-      setTopRated(results);
+      const response = await axios.get(
+        `${url}/tv/airing_today?api_key=${apiKey}&include_adult=false&page=${arrivingTodayPage}`
+      );
+      const filteredResults = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setArrivingToday((prev) =>
+        [...prev, ...filteredResults].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
     };
     fetchArrivingToday();
-    fetchOnTheAir();
-    fetchPolpular();
-    fetchTopRated();
-  }, []);
+  }, [arrivingTodayPage]);
 
-  const handleTvClick = (tv) => {
+  useEffect(() => {
+    const fetchOnTheAir = async () => {
+      const response = await axios.get(
+        `${url}/tv/on_the_air?api_key=${apiKey}&include_adult=false&page=${onTheAirPage}`
+      );
+      const filteredResults = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setOnTheAir((prev) =>
+        [...prev, ...filteredResults].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
+    };
+    fetchOnTheAir();
+  }, [onTheAirPage]);
+
+  useEffect(() => {
+    const fetchPolpular = async () => {
+      const response = await axios.get(
+        `${url}/tv/popular?api_key=${apiKey}&include_adult=false&page=${popularPage}`
+      );
+      const filteredResults = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setPopular((prev) =>
+        [...prev, ...filteredResults].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
+    };
+    fetchPolpular();
+  }, [popularPage]);
+
+  useEffect(() => {
+    const fetchTopRated = async () => {
+      const response = await axios.get(
+        `${url}/tv/top_rated?api_key=${apiKey}&include_adult=false&page=${topRatedPage}`
+      );
+      const filteredResults = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setTopRated((prev) =>
+        [...prev, ...filteredResults].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
+    };
+    fetchTopRated();
+  }, [topRatedPage]);
+
+  const handleClick = (tv) => {
     setSelectedTv(tv);
   };
 
   const handleCloseDialog = () => {
     setSelectedTv(null);
   };
+
+  const utv = [...arrivingToday, ...onTheAir, ...popular, ...topRated]
+    .filter((item) => item.poster_path !== null)
+    .filter(
+      (item, index, self) => index === self.findIndex((m) => m.id === item.id)
+    );
   return (
-    <section className="home">
-      <div
-        className="banner"
-        style={{
-          backgroundImage: popular[7]
-            ? `url(${`${imgUrl}/${popular[7].poster_path}`})`
-            : "rgb(16,16,16)",
-        }}
-      >
-        <div>
-          <button>
-            <BiPlay /> Play{" "}
-          </button>
-          <button>
-            My List <AiOutlinePlus />{" "}
-          </button>
-        </div>
-      </div>
+    <section>
+      <Banner items={utv} />
       <Row
         title={"Arriving Today"}
         arr={arrivingToday}
-        onTvClick={handleTvClick}
+        onClick={handleClick}
+        onScrollEnd={() => setArrivingTodayPage((page) => page + 1)}
       />
-      <Row title={"On The Air"} arr={onTheAir} onTvClick={handleTvClick} />
-      <Row title={"Polpular"} arr={popular} onTvClick={handleTvClick} />
-      <Row title={"Top Rated"} arr={topRated} onTvClick={handleTvClick} />
+      <Row
+        title={"On The Air"}
+        arr={onTheAir}
+        onClick={handleClick}
+        onScrollEnd={() => setOnTheAirPage((page) => page + 1)}
+      />
+      <Row
+        title={"Polpular"}
+        arr={popular}
+        onClick={handleClick}
+        onScrollEnd={() => setPopularPage((page) => page + 1)}
+      />
+      <Row
+        title={"Top Rated"}
+        arr={topRated}
+        onClick={handleClick}
+        onScrollEnd={() => setTopRatedPage((page) => page + 1)}
+      />
 
       {selectedTv && (
         <TvDialogBox tv={selectedTv} onClose={handleCloseDialog} />

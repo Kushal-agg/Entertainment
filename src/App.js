@@ -6,6 +6,8 @@ import TVShows from "./Components/TVShows";
 import Movies from "./Components/movies";
 import Home from "./Components/Home";
 import Search from "./Components/Search";
+import TrendingMovies from "./Components/TrendingMovies";
+import TrendingShows from "./Components/TrendingShows";
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/tvshows" element={<TVShows />} />
         <Route path="/movies" element={<Movies />} />
-        <Route path="/find" element={<Search />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/home/trendingmovies" element={<TrendingMovies />} />
+        <Route path="/home/trendingshows" element={<TrendingShows />} />
       </Routes>
     </Router>
   );

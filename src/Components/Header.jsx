@@ -1,9 +1,16 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import { ImSearch } from "react-icons/im";
-import "./Home.scss"; // Import the SCSS file for styles
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import axios from "axios"; // Import axios for API calls
+import "./Header.scss"; // Import the SCSS file for styles
+import SearchInput from "./SearchInput";
 
+const apiKey = "14af83f372fe18ca097a8721d92b7145";
+const url = "https://api.themoviedb.org/3";
 const Header = () => {
+  const location = useLocation();
+
+  const isVisible = location.pathname === "/search";
+
   return (
     <nav className="header">
       <img
@@ -21,11 +28,8 @@ const Header = () => {
         <NavLink to="/movies" activeClassName="active">
           Movies
         </NavLink>
-        <Link>My List</Link>
       </div>
-      <NavLink to="/find">
-        <ImSearch />
-      </NavLink>
+      <div className="search">{!isVisible && <SearchInput />}</div>
     </nav>
   );
 };

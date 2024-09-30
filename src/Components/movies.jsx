@@ -1,36 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Home.scss";
-import MovieDialog from "./moviesdialogbox";
+import MovieDialog from "./moviesModal";
 import axios from "axios";
 import { BiPlay } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import Footer from "./Footer";
-import { ImTextColor } from "react-icons/im";
+import Row from "./Row";
+import Banner from "./banner";
 
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 const url = "https://api.themoviedb.org/3";
 const imgUrl = "https://image.tmdb.org/t/p/original";
-
-const Card = ({ img, onClick }) => {
-  return <img className="card" src={img} alt="cover" onClick={onClick} />;
-};
-
-const Row = ({ title, arr = [], onMovieClick }) => {
-  return (
-    <div className="row">
-      <h2>{title}</h2>
-      <div>
-        {arr.map((item, index) => (
-          <Card
-            key={index}
-            img={`${imgUrl}/${item.poster_path}`}
-            onClick={() => onMovieClick(item)}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
 
 const Movies = () => {
   const [upComing, setUpComing] = useState([]);
@@ -38,39 +18,84 @@ const Movies = () => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [upComingPage, setUpComingPage] = useState(1);
+  const [nowPlayingPage, setNowPlayingPage] = useState(1);
+  const [popularPage, setPopularPage] = useState(1);
+  const [topRatedPage, setTopRatedPage] = useState(1);
 
   useEffect(() => {
     const fetchUpcoming = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/movie/upcoming?api_key=${apiKey}`);
-      setUpComing(results);
-    };
-    const fetchNowPlaying = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/movie/now_playing?api_key=${apiKey}`);
-      setNowPlaying(results);
-    };
-    const fetchPopular = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/movie/popular?api_key=${apiKey}`);
-      setPopularMovies(results);
-    };
-    const fetchTopRated = async () => {
-      const {
-        data: { results },
-      } = await axios.get(`${url}/movie/top_rated?api_key=${apiKey}`);
-      setTopRated(results);
+      const response = await axios.get(
+        `${url}/movie/upcoming?api_key=${apiKey}&include_adult=false&page=${upComingPage}`
+      );
+      const res = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setUpComing((prev) =>
+        [...prev, ...res].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
     };
     fetchUpcoming();
-    fetchNowPlaying();
-    fetchPopular();
-    fetchTopRated();
-  }, []);
+  }, [upComingPage]);
 
-  const handleMovieClick = (movie) => {
+  useEffect(() => {
+    const fetchNowPlaying = async () => {
+      const response = await axios.get(
+        `${url}/movie/now_playing?api_key=${apiKey}&include_adult=false&page=${nowPlayingPage}`
+      );
+      const res = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setNowPlaying((prev) =>
+        [...prev, ...res].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
+    };
+    fetchNowPlaying();
+  }, [nowPlayingPage]);
+
+  useEffect(() => {
+    const fetchPopular = async () => {
+      const response = await axios.get(
+        `${url}/movie/popular?api_key=${apiKey}&include_adult=false&page=${popularPage}`
+      );
+      const res = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setPopularMovies((prev) =>
+        [...prev, ...res].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
+    };
+    fetchPopular();
+  }, [popularPage]);
+
+  useEffect(() => {
+    const fetchTopRated = async () => {
+      const response = await axios.get(
+        `${url}/movie/top_rated?api_key=${apiKey}&include_adult=false&page=${topRatedPage}`
+      );
+      const res = response.data.results.filter(
+        (item) => item.poster_path !== null
+      );
+      setTopRated((prev) =>
+        [...prev, ...res].filter(
+          (item, index, self) =>
+            index === self.findIndex((m) => m.id === item.id)
+        )
+      );
+    };
+    fetchTopRated();
+  }, [topRatedPage]);
+
+  const handleClick = (movie) => {
     setSelectedMovie(movie);
   };
 
@@ -78,41 +103,45 @@ const Movies = () => {
     setSelectedMovie(null);
   };
 
+  const umovie = [...nowPlaying, ...popularMovies, ...topRated, ...upComing]
+    .filter((item) => item.poster_path !== null)
+    .filter(
+      (movie, index, self) => index === self.findIndex((m) => m.id === movie.id)
+    );
+
   return (
-    <section className="home">
-      <div
-        className="banner"
-        style={{
-          backgroundImage: popularMovies[0]
-            ? `url(${`${imgUrl}/${popularMovies[0].poster_path}`})`
-            : "rgb(16,16,16)",
-        }}
-      >
-        <div>
-          <button>
-            <BiPlay /> Play{" "}
-          </button>
-          <button>
-            My List <AiOutlinePlus />{" "}
-          </button>
-        </div>
-      </div>
-      <Row title={"Upcoming"} arr={upComing} onMovieClick={handleMovieClick} />
+    <section>
+      <Banner items={umovie} />
+
       <Row
-        title={"Now Streaming"}
+        title={"Upcoming"}
+        arr={upComing}
+        onClick={handleClick}
+        onScrollEnd={() => setUpComingPage((page) => page + 1)}
+      />
+      <Row
+        title={"Now Playing"}
         arr={nowPlaying}
-        onMovieClick={handleMovieClick}
+        onClick={handleClick}
+        onScrollEnd={() => setNowPlayingPage((page) => page + 1)}
       />
       <Row
-        title={"Popular"}
+        title={"Popular Movies"}
         arr={popularMovies}
-        onMovieClick={handleMovieClick}
+        onClick={handleClick}
+        onScrollEnd={() => setPopularPage((page) => page + 1)}
       />
-      <Row title={"Top Rated"} arr={topRated} onMovieClick={handleMovieClick} />
+      <Row
+        title={"Top Rated"}
+        arr={topRated}
+        onClick={handleClick}
+        onScrollEnd={() => setTopRatedPage((page) => page + 1)}
+      />
 
       {selectedMovie && (
         <MovieDialog movie={selectedMovie} onClose={handleCloseDialog} />
       )}
+
       <Footer />
     </section>
   );
