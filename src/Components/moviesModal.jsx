@@ -153,7 +153,7 @@ const MovieDialog = ({ movie, onClose }) => {
       .replace(/(Final rating:)/g, "<br /><strong>$1</strong>") // Ensure line break before "Rating:"
       .replace(/(Rating:)/g, "<br /><strong>$1</strong>") // Ensure line break before "Rating:"
       .replace(/(GRADE:)/g, "<br /><strong>$1</strong>") // Ensure line break before "Grade:"
-      .replace(/(\d+(\.\d+)?\/\d+)/g, "<br /><em>$1</em>"); // Handle ratings like "7.5/10" to be on new line
+      .replace(/(?<=:\s*)(\d+(\.\d+)?\/\d+)/g, "<em>$1</em><br />");
 
     return formattedContent;
   };
