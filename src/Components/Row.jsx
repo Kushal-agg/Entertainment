@@ -6,12 +6,19 @@ const imgUrl = "https://image.tmdb.org/t/p/original";
 
 const Row = ({ title, arr, nav, onScrollEnd }) => {
   const rowRef = useRef(null);
+  let isScrolling;
 
   const handleScroll = () => {
     if (rowRef.current) {
       const { scrollLeft, clientWidth, scrollWidth } = rowRef.current;
-      if (scrollLeft + clientWidth >= scrollWidth) {
-        onScrollEnd();
+      if (scrollLeft + clientWidth >= scrollWidth - 10) {
+        // Add buffer
+        if (!isScrolling) {
+          isScrolling = setTimeout(() => {
+            onScrollEnd();
+            isScrolling = null; // Reset scroll debounce
+          }, 200); // Debounce the scroll event by 200ms
+        }
       }
     }
   };
