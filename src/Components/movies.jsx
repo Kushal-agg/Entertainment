@@ -32,18 +32,10 @@ const Movies = () => {
   prev.setDate(today.getDate() - 30);
   const latest = prev.toISOString().split("T")[0];
 
-  const popularMovieCountries = {
-    countries: [
-      "IN", // India
-    ],
-  };
-
-  const countryCodes = popularMovieCountries.countries.join("|");
-
   useEffect(() => {
     const fetchUpcoming = async () => {
       const response = await axios.get(
-        `${url}&sort_by=popularity.desc&with_origin_country=${countryCodes}&with_release_type=3|2&primary_release_date.gte=${curr}&page=${upComingPage}`
+        `${url}&sort_by=popularity.desc&with_origin_country=IN&with_release_type=3|2&primary_release_date.gte=${curr}&page=${upComingPage}`
       );
       const res = response.data.results.filter(
         (item) => item.poster_path !== null
@@ -61,7 +53,7 @@ const Movies = () => {
   useEffect(() => {
     const fetchNowPlaying = async () => {
       const response = await axios.get(
-        `${url}&sort_by=popularity.desc&with_origin_country=${countryCodes}&with_release_type=3|2&primary_release_date.gte=${latest}&primary_release_date.lte=${curr}&page=${nowPlayingPage}`
+        `${url}&sort_by=popularity.desc&with_origin_country=IN|US&with_release_type=3|2&primary_release_date.gte=${latest}&primary_release_date.lte=${curr}&page=${nowPlayingPage}`
       );
       const res = response.data.results.filter(
         (item) => item.poster_path !== null
@@ -79,7 +71,7 @@ const Movies = () => {
   useEffect(() => {
     const fetchPopular = async () => {
       const response = await axios.get(
-        `${url}&sort_by=popularity.desc&vote_average.gte=7&with_origin_country=${countryCodes}&primary_release_date.lte=${curr}&page=${popularPage}`
+        `${url}&sort_by=popularity.desc&vote_average.gte=7&with_origin_country=IN|US&primary_release_date.lte=${curr}&page=${popularPage}`
       );
       const res = response.data.results.filter(
         (item) => item.poster_path !== null
@@ -97,7 +89,7 @@ const Movies = () => {
   useEffect(() => {
     const fetchTopRated = async () => {
       const response = await axios.get(
-        `${url}&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&with_origin_country=${countryCodes}&primary_release_date.lte=${curr}&page=${topRatedPage}`
+        `${url}&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&with_origin_country=IN&primary_release_date.lte=${curr}&page=${topRatedPage}`
       );
       const res = response.data.results.filter(
         (item) => item.poster_path !== null

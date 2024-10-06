@@ -28,7 +28,7 @@ const Row = ({ title, arr, nav, onScrollEnd }) => {
         console.log("removed event listener");
       }
     };
-  }, []);
+  }, [rowRef.current]);
 
   return (
     <div className="row">

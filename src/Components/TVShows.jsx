@@ -31,7 +31,7 @@ const TVShows = () => {
   const curr = today.toISOString().split("T")[0]; // Format as YYYY-MM-DD
 
   const prev = new Date(today);
-  prev.setFullYear(today.getFullYear() - 1);
+  prev.setFullYear(today.getFullYear() - 2);
   const latest = prev.toISOString().split("T")[0];
   console.log(latest);
 

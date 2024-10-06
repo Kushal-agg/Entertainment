@@ -224,11 +224,13 @@ const MoviesPage = ({ arr = [] }) => {
                 {genre}
               </span>
             ))}
-            <span style={{ padding: "5px 0px" }}>•</span>
-            {movie.runtime && (
+            {movie.runtime ? <span style={{ padding: "5px 0px" }}>•</span> : ""}
+            {movie.runtime ? (
               <span style={{ padding: "5px 0px" }}>
                 {Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
               </span>
+            ) : (
+              ""
             )}
           </div>
           <p>{movie.overview}</p>
