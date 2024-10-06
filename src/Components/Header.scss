@@ -34,12 +34,12 @@
       &.active {
         color: burlywood; /* Highlight color for the active link */
         font-weight: bold;
-        box-shadow: 0 4px 8px red; /* Box shadow for active link */
+        box-shadow: 2px 4px 8px red; /* Box shadow for active link */
       }
 
       &:hover {
         color: burlywood; /* Color change on hover */
-        box-shadow: 0 4px 8px blue; /* Box shadow on hover */
+        box-shadow: 2px 4px 8px blue; /* Box shadow on hover */
       }
     }
   }

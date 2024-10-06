@@ -1,24 +1,26 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
-import MovieDialog from "./moviesModal";
-import TvDialogBox from "./tvModal";
+import MovieDialog from "./MoviesPage";
+import TvDialogBox from "./TvPage";
 import "./searchRes.scss";
 
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 const url = "https://api.themoviedb.org/3";
 const imgUrl = "https://image.tmdb.org/t/p/original";
 
-const Column = ({ arr = [], onCardClick }) => {
+const Column = ({ arr = [] }) => {
   return (
     <div className="column">
       <div className="column-content">
         {arr.map((item, index) => {
           const imgPath = item.poster_path || item.profile_path;
           const imgSrc = imgPath ? `${imgUrl}${imgPath}` : null;
+          const nav =
+            item.media_type == "movie" ? "/search/movies" : "/search/tvshows";
           return (
-            <div className="cards" onClick={() => onCardClick(item)}>
+            <Link to={`${nav}/${item.id}`} key={index} className="cards">
               {imgSrc && (
                 <img
                   src={imgSrc}
@@ -50,7 +52,7 @@ const Column = ({ arr = [], onCardClick }) => {
                   <p className="cards-overview">{item.overview}</p>
                 )}
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
@@ -60,11 +62,10 @@ const Column = ({ arr = [], onCardClick }) => {
 
 const Search = () => {
   const location = useLocation();
-  const query = location.state?.searchTerm;
+  const navigate = useNavigate();
+  const query = location.state?.searchTerm || "";
   const [searchTerm, setSearchTerm] = useState(query);
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [selectedTvShow, setSelectedTvShow] = useState(null);
   const [page, setPage] = useState(1);
 
   const handleScroll = () => {
@@ -81,18 +82,12 @@ const Search = () => {
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
+    navigate(location.pathname, {
+      state: { searchTerm: e.target.value },
+      replace: true,
+    });
   };
 
-  const handleCardClick = (item) => {
-    console.log("Clicked item:", item);
-    if (item.media_type === "movie") {
-      setSelectedMovie(item);
-    } else if (item.media_type === "tv") {
-      setSelectedTvShow(item);
-    } else {
-      console.warn("Unknown media type:", item.media_type);
-    }
-  };
   useEffect(() => {
     const fetchSearchResults = async () => {
       if (searchTerm.trim() === "") {
@@ -159,20 +154,8 @@ const Search = () => {
       </div>
       {searchResults.length > 0 && (
         <div className="results-container">
-          <Column arr={searchResults} onCardClick={handleCardClick} />
+          <Column arr={searchResults} />
         </div>
-      )}
-      {selectedTvShow && (
-        <TvDialogBox
-          tv={selectedTvShow}
-          onClose={() => setSelectedTvShow(null)}
-        />
-      )}
-      {selectedMovie && (
-        <MovieDialog
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-        />
       )}
     </div>
   );

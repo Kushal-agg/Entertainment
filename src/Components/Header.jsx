@@ -9,7 +9,7 @@ const url = "https://api.themoviedb.org/3";
 const Header = () => {
   const location = useLocation();
 
-  const isVisible = location.pathname === "/search";
+  const isVisible = location.pathname.includes("/search");
 
   return (
     <nav className="header">
@@ -19,7 +19,7 @@ const Header = () => {
         alt="Logo"
       />
       <div className="nav-links">
-        <NavLink exact to="/" activeClassName="active">
+        <NavLink exact to="/home" activeClassName="active">
           Home
         </NavLink>
         <NavLink to="/tvshows" activeClassName="active">

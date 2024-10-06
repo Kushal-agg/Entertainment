@@ -3,19 +3,21 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Home.scss";
 import Banner from "./banner";
-import MovieDialogBox from "./moviesModal";
-import TvDialogBox from "./tvModal";
 import Footer from "./Footer";
 import { BiLinkExternal } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 const imgUrl = "https://image.tmdb.org/t/p/original";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [movies, setMovie] = useState([]);
   const [tv, setTv] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [selectedTv, setSelectedTv] = useState(null);
+
+  const [loading, setLoading] = useState(true);
   const page = Math.floor(Math.random() * 10) + 1;
   useEffect(() => {
     const fetchMovies = async () => {
@@ -49,22 +51,6 @@ const Home = () => {
 
   const uniqueItems = [...movies, ...tv];
 
-  const ClickHandler = (media_type, item) => {
-    if (media_type === "movie") {
-      setSelectedMovie(item);
-    } else if (media_type === "tv") {
-      setSelectedTv(item);
-    }
-  };
-
-  const handleCloseDialog = (media_type) => {
-    if (media_type === "movie") {
-      setSelectedMovie(null);
-    } else if (media_type === "tv") {
-      setSelectedTv(null);
-    }
-  };
-
   return (
     <div className="home-page">
       <Banner items={uniqueItems} />
@@ -76,13 +62,13 @@ const Home = () => {
           </div>
           <div className="scrollable-row">
             {movies.map((item, index) => (
-              <div key={index} className="poster-item">
-                <img
-                  src={`${imgUrl}/${item.poster_path}`}
-                  alt={item.title}
-                  onClick={() => ClickHandler(item.media_type, item)}
-                />
-              </div>
+              <Link
+                to={`/home/movies/${item.id}`}
+                key={index}
+                className="poster-item"
+              >
+                <img src={`${imgUrl}/${item.poster_path}`} alt={item.title} />
+              </Link>
             ))}
             <div className="view-all">
               <Link to="/home/trendingmovies">
@@ -102,13 +88,13 @@ const Home = () => {
           </div>
           <div className="scrollable-row">
             {tv.map((item, index) => (
-              <div key={index} className="poster-item">
-                <img
-                  src={`${imgUrl}/${item.poster_path}`}
-                  alt={item.title}
-                  onClick={() => ClickHandler(item.media_type, item)}
-                />
-              </div>
+              <Link
+                to={`/home/tvshows/${item.id}`}
+                key={index}
+                className="poster-item"
+              >
+                <img src={`${imgUrl}/${item.poster_path}`} alt={item.title} />
+              </Link>
             ))}
             <div className="view-all">
               <Link to="/home/trendingshows">
@@ -121,15 +107,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {selectedTv && (
-        <TvDialogBox tv={selectedTv} onClose={() => handleCloseDialog("tv")} />
-      )}
-      {selectedMovie && (
-        <MovieDialogBox
-          movie={selectedMovie}
-          onClose={() => handleCloseDialog("movie")}
-        />
-      )}
+
       <Footer />
     </div>
   );

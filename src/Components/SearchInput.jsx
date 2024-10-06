@@ -49,7 +49,8 @@ const SearchInput = () => {
   }, []);
 
   useEffect(() => {
-    setHighlightedIndex(0); // Set first suggestion highlighted
+    setSuggestions([]);
+    setHighlightedIndex(-1);
     setPage(1);
     const fetchSuggestions = async () => {
       try {
@@ -110,10 +111,12 @@ const SearchInput = () => {
         prev < suggestions.length - 1 ? prev + 1 : 0
       );
     } else if (e.key === "ArrowUp") {
-      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : -1));
     } else if (e.key === "Enter") {
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
         handleSuggestionClick(suggestions[highlightedIndex]);
+      } else if (highlightedIndex === -1 || suggestions.length === 0) {
+        handleSuggestionClick({ name: search });
       }
     }
   };
@@ -136,10 +139,8 @@ const SearchInput = () => {
         onChange={(e) => {
           if (e.target.value === "") {
             setSuggestions([]);
-            setPage(1);
           }
           setSearch(e.target.value);
-          setHighlightedIndex(-1); // Reset highlighted index when typing
         }}
         onKeyDown={handleKeyDown} // Add keyboard navigation handler
         placeholder="Search movies or TV shows..."

@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./TrendingMovies.scss";
 import "./Home.scss";
-import TvDialogBox from "./tvModal";
+import TvDialogBox from "./TvPage";
 
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 const imgUrl = "https://image.tmdb.org/t/p/original";
@@ -10,7 +11,6 @@ const imgUrl = "https://image.tmdb.org/t/p/original";
 const TrendingShows = () => {
   const [shows, setShows] = useState([]);
   const [page, setPage] = useState(1);
-  const [selectedShow, setSelectedShow] = useState(null);
 
   const handleScroll = () => {
     if (
@@ -54,18 +54,15 @@ const TrendingShows = () => {
       <h2>Trending TV Shows</h2>
       <div className="all-movies">
         {shows.map((item, index) => (
-          <div key={index} className="poster-item">
-            <img
-              src={`${imgUrl}/${item.poster_path}`}
-              alt={item.name}
-              onClick={() => setSelectedShow(item)}
-            />
-          </div>
+          <Link
+            to={`/home/tvshows/${item.id}`}
+            key={index}
+            className="poster-item"
+          >
+            <img src={`${imgUrl}/${item.poster_path}`} alt={item.name} />
+          </Link>
         ))}
       </div>
-      {selectedShow && (
-        <TvDialogBox tv={selectedShow} onClose={() => setSelectedShow(null)} />
-      )}
     </div>
   );
 };

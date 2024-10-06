@@ -80,26 +80,27 @@
   flex-wrap: wrap; /* Allow wrapping to next row */
   max-height: 800px; /* Limit height for three rows of items */
   overflow-y: hidden; /* Allow scrolling if necessary */
-  padding-top: 20px;
-  padding-left: 4px;
+  padding: 10px 0 4px; /* Add padding to the top and left */
 }
 
 .poster-item {
-  flex: 0 0 150px; /* Set a fixed width for each poster item */
   margin: 10px; /* Space between items */
   transition: transform 0.3s ease;
+  border-radius: 10px;
 }
 
 .poster-item img {
-  width: 100%;
+  width: 150px;
+  height: 200px;
   border-radius: 10px;
   cursor: pointer;
-  transition: 0.5s ease;
+  transition: 0.5s ease, box-shadow 0.5s ease;
 }
 
 .poster-item:hover {
-  -webkit-transform: scale(1.15);
-  -ms-transform: scale(1.15);
-  transform: scale(1.15);
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
   transition: 0.7s ease;
+  box-shadow: 2px 1px 6px cornsilk; /* Add shadow effect */
 }

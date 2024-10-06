@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./Row.scss";
 
 const imgUrl = "https://image.tmdb.org/t/p/original";
 
-const Row = ({ title, arr, onClick, onScrollEnd }) => {
+const Row = ({ title, arr, nav, onScrollEnd }) => {
   const rowRef = useRef(null);
 
   const handleScroll = () => {
@@ -36,14 +37,17 @@ const Row = ({ title, arr, onClick, onScrollEnd }) => {
       <div className="row-content" ref={rowRef}>
         {arr.map((item, index) => {
           return (
-            <div className="card-container" key={index}>
+            <Link
+              to={`${nav}/${item.id}`}
+              className="card-container"
+              key={index}
+            >
               <img
                 className="card"
                 src={`${imgUrl}/${item.poster_path}`}
                 alt="cover"
-                onClick={() => onClick(item)}
               />
-            </div>
+            </Link>
           );
         })}
       </div>

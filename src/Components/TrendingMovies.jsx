@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./TrendingMovies.scss";
 import "./Home.scss";
-import MovieDialog from "./moviesModal";
 
 const apiKey = "14af83f372fe18ca097a8721d92b7145";
 const imgUrl = "https://image.tmdb.org/t/p/original";
@@ -10,7 +10,6 @@ const imgUrl = "https://image.tmdb.org/t/p/original";
 const TrendingMovies = () => {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleScroll = () => {
     if (
@@ -54,21 +53,15 @@ const TrendingMovies = () => {
       <h2>Trending Movies</h2>
       <div className="all-movies">
         {movies.map((item, index) => (
-          <div key={index} className="poster-item">
-            <img
-              src={`${imgUrl}/${item.poster_path}`}
-              alt={item.title}
-              onClick={() => setSelectedMovie(item)}
-            />
-          </div>
+          <Link
+            to={`/home/movies/${item.id}`}
+            key={index}
+            className="poster-item"
+          >
+            <img src={`${imgUrl}/${item.poster_path}`} alt={item.title} />
+          </Link>
         ))}
       </div>
-      {selectedMovie && (
-        <MovieDialog
-          movie={selectedMovie}
-          onClose={() => setSelectedMovie(null)}
-        />
-      )}
     </div>
   );
 };
